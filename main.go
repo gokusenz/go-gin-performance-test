@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	port = ":9000"
+	port = ":4000"
 	conf models.Config
 )
 
