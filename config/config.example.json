@@ -1,0 +1,10 @@
+{
+    "database": {
+        "host": "",
+        "name": "",
+        "user": "",
+        "password": "",
+        "app_name": "fw-report"
+    },
+    "project_id": ""
+  }

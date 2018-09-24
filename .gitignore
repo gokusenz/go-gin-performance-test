@@ -1,0 +1,4 @@
+/vendor/*
+/config/config.json
+/entrypoint
+/c.out
