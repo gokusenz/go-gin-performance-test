@@ -6,7 +6,6 @@ type Product struct {
 	Title            string
 	Slug             string
 	Description      string
-	RevisionPolicy   string
 	AboutSeller      string
 	BasePrice        float64
 	Extras           string `gorm:"Type:json;DEFAULT:'{\"options\":[]}'" json:"extras"`

@@ -47,7 +47,7 @@ func main() {
 		c.String(http.StatusOK, "OK")
 	})
 
-	r.GET("/product/:product_id", productServer.GetByID)
+	r.GET("api/product/:product_id", productServer.GetByID)
 
 	r.Run(port)
 }
