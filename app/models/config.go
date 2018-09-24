@@ -1,17 +1,15 @@
 package models
 
-// Config model
+// Config struct
 type Config struct {
-	Database  Database `json:"database"`
-	Env       string   `json:"env"`
-	ProjectID string   `json:"project_id"`
+	Database DatabaseConf `yaml:"database"`
 }
 
-// Database model
-type Database struct {
-	AppName  string `json:"app_name"`
-	Host     string `json:"host"`
-	Name     string `json:"name"`
-	User     string `json:"user"`
-	Password string `json:"password"`
+// DatabaseConf struct
+type DatabaseConf struct {
+	Host     string `yaml:"host"`
+	Name     string `yaml:"name"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	AppName  string `yaml:"app_name"`
 }

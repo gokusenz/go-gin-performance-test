@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fastwork/go-gin-performance-test/app/config"
 	"fastwork/go-gin-performance-test/app/models"
 	"fastwork/go-gin-performance-test/app/repos"
 	"fastwork/go-gin-performance-test/app/servers"
@@ -11,17 +12,19 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var (
 	port = ":9000"
-	conf *models.Config
+	conf models.Config
 )
 
 func main() {
 
 	// Initial database & migrate
-	db := initDb(conf)
+	conf = *config.GetConfig()
+	db := initDb(&conf)
 	db = configDatabase(db)
 	models := []interface{}{
 		models.Product{},
@@ -44,22 +47,9 @@ func main() {
 		c.String(http.StatusOK, "OK")
 	})
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	r.GET("/product/:product_id", productServer.GetByID)
 
-	// Custom HTTP configuration
-	s := &http.Server{
-		Addr:           ":" + port,
-		Handler:        r,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-	s.ListenAndServe()
-
+	r.Run(port)
 }
 
 func initDb(config *models.Config) *gorm.DB {

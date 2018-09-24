@@ -1,4 +1,4 @@
 /vendor/*
-/config/config.json
+/config/config.yaml
 /entrypoint
 /c.out

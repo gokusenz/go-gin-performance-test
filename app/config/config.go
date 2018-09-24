@@ -1,21 +1,26 @@
 package config
 
 import (
-	"encoding/json"
+	"fastwork/go-gin-performance-test/app/models"
 	"io/ioutil"
 
-	"fastwork/go-gin-performance-test/app/models"
+	yaml "gopkg.in/yaml.v2"
 )
 
-// Config variable
+// Config model
 var Config models.Config
 
 func init() {
-	file, err := ioutil.ReadFile("config/config.json")
+	file, err := ioutil.ReadFile("config/config.yaml")
 	if err != nil {
 		panic(err)
 	}
-	if err := json.Unmarshal(file, &Config); err != nil {
+	if err := yaml.Unmarshal(file, &Config); err != nil {
 		panic(err)
 	}
+}
+
+// GetConfig is a function to retrive config
+func GetConfig() *models.Config {
+	return &Config
 }

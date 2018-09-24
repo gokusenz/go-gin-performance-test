@@ -1,10 +1,11 @@
 package servers
 
 import (
-	"context"
-	"fastwork/api/fastwork"
 	"fastwork/go-gin-performance-test/app/helpers"
 	"fastwork/go-gin-performance-test/app/services"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -22,13 +23,23 @@ func NewProductServer(productService services.IProductService) *ProductServer {
 }
 
 // GetByID is product function
-func (r *ProductServer) GetByID(ctx context.Context) (*fastwork.Product, error) {
-	// Init variables
-	userID := contextHelper.GetData(ctx, "user_id")
+func (r *ProductServer) GetByID(c *gin.Context) {
 
-	result, err := r.ProductService.GetbyID(in, userID)
-	if err != nil {
-		return nil, err
+	productID := c.Param("product_id")
+	if productID != "" {
+		result, err := r.ProductService.GetbyID(productID)
+
+		c.JSON(200, gin.H{
+			"message": result,
+		})
+
+		if err != nil {
+			c.AbortWithError(http.StatusNotFound, err)
+		}
+
+	} else {
+		// If an invalid article ID is specified in the URL, abort with an error
+		c.AbortWithStatus(http.StatusNotFound)
 	}
-	return result, nil
+
 }
