@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fastwork/go-gin-performance-test/app/helpers"
 	"fastwork/go-gin-performance-test/app/models"
 	"fastwork/go-gin-performance-test/app/repos"
 	"fastwork/go-gin-performance-test/app/servers"
 	"fastwork/go-gin-performance-test/app/services"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -38,11 +38,18 @@ func main() {
 	productServer := servers.NewProductServer(productService)
 
 	r := gin.Default()
+
+	// Start health check http server
+	r.GET("/healthz", func(c *gin.Context) {
+		c.String(http.StatusOK, "OK")
+	})
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
+
 	r.Run(":" + port)
 }
 
@@ -57,7 +64,6 @@ func initDb(config *models.Config) *gorm.DB {
 
 	db, err := gorm.Open("postgres", dbInfo)
 	if err != nil {
-		helpers.CaptureError(err, nil)
 		panic(err)
 	}
 
