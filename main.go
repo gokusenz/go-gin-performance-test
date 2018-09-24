@@ -50,7 +50,16 @@ func main() {
 		})
 	})
 
-	r.Run(":" + port)
+	// Custom HTTP configuration
+	s := &http.Server{
+		Addr:           ":" + port,
+		Handler:        r,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	s.ListenAndServe()
+
 }
 
 func initDb(config *models.Config) *gorm.DB {
