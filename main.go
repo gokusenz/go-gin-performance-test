@@ -79,8 +79,8 @@ func autoMigrate(db *gorm.DB, models []interface{}) error {
 }
 
 func configDatabase(db *gorm.DB) *gorm.DB {
-	db.DB().SetMaxIdleConns(10)
-	db.DB().SetMaxOpenConns(100)
+	db.DB().SetMaxIdleConns(15)
+	db.DB().SetMaxOpenConns(15)
 	db.DB().SetConnMaxLifetime(time.Hour)
 	db = db.LogMode(true)
 
