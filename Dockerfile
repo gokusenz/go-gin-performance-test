@@ -2,7 +2,8 @@ FROM acoshift/go-scratch
 
 COPY entrypoint /entrypoint
 
+COPY config /config
+
 EXPOSE 8080
-EXPOSE 9000
 
 ENTRYPOINT ["/entrypoint"]

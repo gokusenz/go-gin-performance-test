@@ -16,3 +16,11 @@ dep-update:
 
 dev:
 	go run main.go
+
+build:
+	make dep
+	make dep-update
+	env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o entrypoint -a -ldflags '-w -s' main.go
+
+docker:
+	docker build -t $(REGISTRY)/$(SERVICE) .

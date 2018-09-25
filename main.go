@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	port = ":4000"
+	port = ":8080"
 	conf models.Config
 )
 
@@ -47,7 +47,7 @@ func main() {
 		c.String(http.StatusOK, "OK")
 	})
 
-	r.GET("api/product/:product_id", productServer.GetByID)
+	r.GET("api/products/:product_id", productServer.GetByID)
 
 	r.Run(port)
 }
